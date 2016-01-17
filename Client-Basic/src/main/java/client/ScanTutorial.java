@@ -1,10 +1,11 @@
 package client;
 
+import config.TutorialConfig;
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import util.HBaseHelper;
 
 import java.io.IOException;
@@ -15,9 +16,8 @@ import java.io.IOException;
 public class ScanTutorial {
 
     public static void main(String[] args) throws IOException {
-        Configuration conf = HBaseConfiguration.create(); //default $HBASE_HOME/conf/hbase-site.xml 정보 참조.
-        conf.set("hbase.zookeeper.quorum","localhost");
-        conf.set("hbase.zookeeper.property.clientPort","2181");
+        AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(TutorialConfig.class);
+        Configuration conf = ctx.getBean("hBaseConfiguration", Configuration.class);
 
         HBaseHelper helper = HBaseHelper.getHelper(conf);
         helper.dropTable("testtable");
