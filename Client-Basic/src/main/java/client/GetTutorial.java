@@ -43,8 +43,6 @@ public class GetTutorial {
             logger.info("Value: " + Bytes.toString(val)); // co GetExample-7-Print Print out the value while converting it back.
 
             return Bytes.toString(val);
-        } finally {
-            helper.close();
         }
     }
 }

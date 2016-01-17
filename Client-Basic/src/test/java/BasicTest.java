@@ -1,7 +1,9 @@
 import client.GetTutorial;
+import client.PutTutorial;
 import config.HBaseHelper;
 import config.TutorialConfig;
 import org.apache.hadoop.conf.Configuration;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,7 +25,9 @@ public class BasicTest {
 
     private Configuration conf;
     private HBaseHelper helper;
+
     private GetTutorial getTutorial;
+    private PutTutorial putTutorial;
 
     @Before
     public void setup() {
@@ -31,11 +35,28 @@ public class BasicTest {
         conf = ctx.getBean("hBaseConfiguration", Configuration.class);
         helper = ctx.getBean("hBaseHelper", HBaseHelper.class);
         getTutorial = new GetTutorial(conf, helper);
+        putTutorial = new PutTutorial(conf, helper);
     }
 
     @Test
     public void getTest() throws IOException {
         String val = getTutorial.get();
-        assertEquals("val1", val);
+        assertEquals("value1", val);
+    }
+
+    @Test
+    public void putTest() throws IOException {
+        String[] qualifiers = {"qual1", "qual2"};
+        String[] values = {"value1", "value2"};
+
+        putTutorial.put("testtable", "colfam1", "row1", qualifiers, values);
+        String val = getTutorial.get();
+
+        assertEquals("value1", val);
+    }
+
+    @After
+    public void tearDown() throws IOException {
+        helper.close();
     }
 }
