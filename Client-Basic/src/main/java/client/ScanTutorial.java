@@ -6,7 +6,7 @@ import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import util.HBaseHelper;
+import config.HBaseHelper;
 
 import java.io.IOException;
 
@@ -18,8 +18,8 @@ public class ScanTutorial {
     public static void main(String[] args) throws IOException {
         AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(TutorialConfig.class);
         Configuration conf = ctx.getBean("hBaseConfiguration", Configuration.class);
+        HBaseHelper helper = ctx.getBean("hBaseHelper", HBaseHelper.class);
 
-        HBaseHelper helper = HBaseHelper.getHelper(conf);
         helper.dropTable("testtable");
         helper.createTable("testtable", "colfam1", "colfam2");
         System.out.println("Adding rows to table...");

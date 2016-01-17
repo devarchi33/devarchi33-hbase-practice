@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.io.ClassPathResource;
 
+import java.io.IOException;
+
 /**
  * Created by donghoon on 2016. 1. 17..
  */
@@ -31,5 +33,10 @@ public class TutorialConfig {
         conf.set("hbase.zookeeper.quorum", hbaseHost);
         conf.set("hbase.zookeeper.property.clientPort", hbaseClientPort);
         return conf;
+    }
+
+    @Bean
+    public HBaseHelper hBaseHelper() throws IOException {
+        return new HBaseHelper(hBaseConfiguration());
     }
 }

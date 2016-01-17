@@ -1,4 +1,4 @@
-package util;
+package config;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.*;
@@ -24,10 +24,6 @@ public class HBaseHelper implements Closeable {
         this.configuration = configuration;
         this.connection = ConnectionFactory.createConnection(configuration);
         this.admin = connection.getAdmin();
-    }
-
-    public static HBaseHelper getHelper(Configuration configuration) throws IOException {
-        return new HBaseHelper(configuration);
     }
 
     @Override
