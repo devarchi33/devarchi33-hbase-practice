@@ -7,6 +7,7 @@ import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import config.HBaseHelper;
+import org.springframework.context.support.AbstractApplicationContext;
 
 import java.io.IOException;
 
@@ -16,7 +17,7 @@ import java.io.IOException;
 public class ScanTutorial {
 
     public static void main(String[] args) throws IOException {
-        AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(TutorialConfig.class);
+        AbstractApplicationContext ctx = new AnnotationConfigApplicationContext(TutorialConfig.class);
         Configuration conf = ctx.getBean("hBaseConfiguration", Configuration.class);
         HBaseHelper helper = ctx.getBean("hBaseHelper", HBaseHelper.class);
 
