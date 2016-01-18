@@ -1,5 +1,6 @@
 import client.GetTutorial;
 import client.PutTutorial;
+import client.ScanTutorial;
 import config.HBaseHelper;
 import config.TutorialConfig;
 import org.apache.hadoop.conf.Configuration;
@@ -28,6 +29,7 @@ public class BasicTest {
 
     private GetTutorial getTutorial;
     private PutTutorial putTutorial;
+    private ScanTutorial scanTutorial;
 
     @Before
     public void setup() {
@@ -36,6 +38,7 @@ public class BasicTest {
         helper = ctx.getBean("hBaseHelper", HBaseHelper.class);
         getTutorial = new GetTutorial(conf, helper);
         putTutorial = new PutTutorial(conf, helper);
+        scanTutorial = new ScanTutorial(conf, helper);
     }
 
     @Test
@@ -53,6 +56,11 @@ public class BasicTest {
         String val = getTutorial.get("testtable", "row1", "colfam1", "qual1");
 
         assertEquals("value1", val);
+    }
+
+    @Test
+    public void scanTest() throws IOException {
+        scanTutorial.scan();
     }
 
     @After
