@@ -40,7 +40,7 @@ public class BasicTest {
 
     @Test
     public void getTest() throws IOException {
-        String val = getTutorial.get();
+        String val = getTutorial.get("testtable", "row1", "colfam1", "qual1");
         assertEquals("value1", val);
     }
 
@@ -49,8 +49,8 @@ public class BasicTest {
         String[] qualifiers = {"qual1", "qual2"};
         String[] values = {"value1", "value2"};
 
-        putTutorial.put("testtable", "colfam1", "row1", qualifiers, values);
-        String val = getTutorial.get();
+        putTutorial.put("testtable", "row1", "colfam1", qualifiers, values);
+        String val = getTutorial.get("testtable", "row1", "colfam1", "qual1");
 
         assertEquals("value1", val);
     }

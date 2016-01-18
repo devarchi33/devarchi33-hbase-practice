@@ -23,24 +23,25 @@ public class GetTutorial {
         this.helper = helper;
     }
 
-    public String get() throws IOException {
+    public String get(String tableName, String row, String colfam,
+                      String qualifier) throws IOException {
         try (Connection connection = ConnectionFactory.createConnection(conf);
-             Table table = connection.getTable(TableName.valueOf("testtable"))) {
+             Table table = connection.getTable(TableName.valueOf("testtable"))) {//최상단 테이블 객체.
 
-            if (!helper.existsTable("testtable")) {
-                helper.createTable("testtable", "colfam1");
+            if (!helper.existsTable(tableName)) {
+                helper.createTable(tableName, colfam);
             }
 
-            Get get = new Get(Bytes.toBytes("row1")); // co GetExample-3-NewGet Create get with specific row.
+            Get get = new Get(Bytes.toBytes(row)); //테이블 객체를 얻은 후 row 정보를 얻어옵니다.
 
-            get.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1")); // co GetExample-4-AddCol Add a column to the get.
+            get.addColumn(Bytes.toBytes(colfam), Bytes.toBytes(qualifier)); //얻어올 컬럼 정보를 추가합니다.
 
-            Result result = table.get(get); // co GetExample-5-DoGet Retrieve row with selected columns from HBase.
+            Result result = table.get(get); //테이블 객체를 통해서 get 인스턴스에 등록된 row의 column 정보를 읽어 들입니다.
 
-            byte[] val = result.getValue(Bytes.toBytes("colfam1"),
-                    Bytes.toBytes("qual1")); // co GetExample-6-GetValue Get a specific value for the given column.
+            byte[] val = result.getValue(Bytes.toBytes(colfam),
+                    Bytes.toBytes(qualifier));  //qulifier를 통해 특정 컬럼 값을 얻어옵니다.
 
-            logger.info("Value: " + Bytes.toString(val)); // co GetExample-7-Print Print out the value while converting it back.
+            logger.info("Value: " + Bytes.toString(val));
 
             return Bytes.toString(val);
         }
